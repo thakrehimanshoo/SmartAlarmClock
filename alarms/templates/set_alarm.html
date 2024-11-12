@@ -1,0 +1,33 @@
+<!-- set_alarm.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Alarm</title>
+</head>
+<body>
+    <h1>Set Your Alarm</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Set Alarm</button>
+    </form>
+
+    <h2>Upcoming Alarms</h2>
+    <ul>
+        {% for alarm in upcoming_alarms %}
+            <li>
+                {{ alarm.text }} at {{ alarm.alarm_date }} {{ alarm.alarm_time }}
+                <form action="{% url 'delete_alarm' alarm.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No alarms set.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
