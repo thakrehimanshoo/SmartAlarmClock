@@ -10,12 +10,12 @@ class AlarmForm(forms.ModelForm):
 
     text = forms.CharField(max_length=200, label="Alarm Text")
     
-    # Set the default value for alarm_date to the current date
+  
     alarm_date = forms.DateField(initial=datetime.today, widget=forms.DateInput(attrs={
         'type': 'date',
     }), label='Set Date')
 
     alarm_time = forms.TimeField(widget=forms.TimeInput(attrs={
         'type': 'time',
-        'value': datetime.now().strftime('%H:%M'),  # Set the default time to the current time
+        'value': datetime.now().strftime('%H:%M'), 
     }), label='Set Time')

@@ -14,7 +14,7 @@ def set_alarm(request):
             alarm_time = form.cleaned_data['alarm_time']
             alarm_datetime = datetime.combine(alarm_date, alarm_time)
             
-            # Save the alarm with combined datetime
+            
             Alarm.objects.create(text=form.cleaned_data['text'], alarm_date=alarm_date, alarm_time=alarm_time)
             return redirect('set_alarm')
     else:
@@ -27,11 +27,10 @@ def set_alarm(request):
 def delete_alarm(request, pk):
     alarm = get_object_or_404(Alarm, pk=pk)
     
-    # Delete the alarm
+   
     alarm.delete()
     
-    # Add a success message (optional)
+
     messages.success(request, "Alarm has been deleted successfully.")
     
-    # Redirect back to the list of alarms
-    return redirect('set_alarm')  # Change 'list_alarms' to the name of your alarm list view
+    return redirect('set_alarm')  
