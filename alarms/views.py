@@ -5,6 +5,7 @@ from .models import Alarm
 from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
+from django.utils import timezone
 
 def set_alarm(request):
     if request.method == 'POST':
@@ -13,7 +14,6 @@ def set_alarm(request):
             alarm_date = form.cleaned_data['alarm_date']
             alarm_time = form.cleaned_data['alarm_time']
             alarm_datetime = datetime.combine(alarm_date, alarm_time)
-            
             
             Alarm.objects.create(text=form.cleaned_data['text'], alarm_date=alarm_date, alarm_time=alarm_time)
             return redirect('set_alarm')
@@ -26,11 +26,16 @@ def set_alarm(request):
 
 def delete_alarm(request, pk):
     alarm = get_object_or_404(Alarm, pk=pk)
-    
-   
     alarm.delete()
-    
-
     messages.success(request, "Alarm has been deleted successfully.")
-    
-    return redirect('set_alarm')  
+    return redirect('set_alarm')
+
+# View to acknowledge the alarm being turned off
+def acknowledge_alarm(request, pk):
+    alarm = get_object_or_404(Alarm, pk=pk)
+    alarm.turned_off = True
+    alarm.turned_off_time = timezone.now()  # Set the time when the alarm was turned off
+    alarm.save()
+
+    messages.success(request, "Alarm has been turned off.")
+    return redirect('set_alarm')
