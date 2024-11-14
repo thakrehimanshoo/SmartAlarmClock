@@ -7,6 +7,5 @@ urlpatterns = [
     path('set_alarm/', views.set_alarm, name='set_alarm'),
     path('delete/<int:pk>/', views.delete_alarm, name='delete_alarm'),
     path('api/alarms/', api.AlarmList.as_view(), name='alarm-list'),
-    path('acknowledge_alarm/<int:pk>/', views.acknowledge_alarm, name='acknowledge_alarm'),
     
 ]
